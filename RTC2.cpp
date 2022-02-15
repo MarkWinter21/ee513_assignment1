@@ -87,6 +87,8 @@ void rd() {  //read from the registers always set the register to 0x00 before re
 	}
 }
 void setAlarmVals(){  //using cin to set alarm 1 and 2
+
+	wrte(15, 0b00000000); //reset the alarm flags
 	cout<<"Would you like to set Alarm 1 (y/n)?"<<endl;
 	string y;
 	cin>>y;
@@ -118,8 +120,8 @@ void setAlarm(unsigned int a, char setVal[]){  //take the cin values and start w
 	cleanBits[i]= cB_b;
 	cout<<"alarm1 buffer val: "<<bitset<8>(cleanBits[i])<<endl;}
 	if (a==8){
-	char maskBuf[2] ={0x07, 0b00000000}; //set seconds to 0 and set mask for that register
-	write(file, maskBuf, 2);}
+	char maskBuf[2] ={0x07, 0b00000000}; //set seconds to 0 and set mask for that register. 
+	write(file, maskBuf, 2);} //Mask is set for alarm trigger when the seconds match
 	char mins_a=cleanBits[0]<<4;
 	char mins_b =cleanBits[1];
 	char mask_d =0b10000000;  //this is the binary for the mask used in combination with OR. All repeated for hrs and date
